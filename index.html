@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ансамбль аккордеонистов "Dutti" | Живая музыка</title>
+    <!-- Подключение шрифтов -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Подключение иконок -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Базовые настройки и переменные */
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-cabaret: #1a0000;
+            --primary-gold: #d4af37;
+            --primary-gold-hover: #f9d71c;
+            --accent-red: #8B0000;
+            --accent-red-bright: #cc0000;
+            --text-light: #f5f5f5;
+            --text-muted: #b3b3b3;
+            --nav-height: 80px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: var(--nav-height); /* Чтобы меню не закрывало заголовки */
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 700;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Навигационное меню (Sticky) */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: var(--nav-height);
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(139, 0, 0, 0.4);
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            color: var(--primary-gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links li a {
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent-red-bright);
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px var(--accent-red-bright);
+        }
+
+        .nav-links li a:hover {
+            color: var(--primary-gold);
+        }
+
+        .nav-links li a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.8rem;
+            color: var(--primary-gold);
+            cursor: pointer;
+        }
+
+        /* Главный экран (Hero) */
+        #hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            /* Фоновое изображение аккордеона с темным градиентом */
+            background: linear-gradient(rgba(10, 10, 10, 0.7), rgba(26, 0, 0, 0.9)), 
+                        url('https://images.unsplash.com/photo-1595083162751-247ce1bc2f46?q=80&w=1920&auto=format&fit=crop') center/cover no-repeat;
+            padding: 0 20px;
+        }
+
+        .hero-title {
+            font-size: 5rem;
+            color: var(--primary-gold);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.6), 0 0 40px rgba(139, 0, 0, 0.8);
+            animation: fadeInDown 1.5s ease-out;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin-bottom: 40px;
+            color: var(--text-light);
+            font-weight: 300;
+            animation: fadeInUp 1.5s ease-out 0.5s both;
+        }
+
+        .cta-btn {
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--bg-dark);
+            background: var(--primary-gold);
+            border: 2px solid var(--primary-gold);
+            border-radius: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+            animation: fadeInUp 1.5s ease-out 1s both;
+        }
+
+        .cta-btn:hover {
+            background: transparent;
+            color: var(--primary-gold);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.8) inset, 0 0 30px rgba(212, 175, 55, 0.8);
+            transform: translateY(-3px);
+        }
+
+        /* Общие стили секций */
+        section {
+            padding: 100px 5%;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            text-align: center;
+            color: var(--primary-gold);
+            margin-bottom: 60px;
+            text-transform: uppercase;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '♦';
+            display: block;
+            text-align: center;
+            font-size: 1.5rem;
+            color: var(--accent-red-bright);
+            margin-top: 10px;
+            text-shadow: 0 0 10px var(--accent-red-bright);
+        }
+
+        /* О нас */
+        #about {
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-cabaret) 100%);
+        }
+
+        .about-content {
+            display: flex;
+            gap: 50px;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-text {
+            flex: 1;
+            font-size: 1.1rem;
+            color: var(--text-muted);
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+        }
+
+        .about-text strong {
+            color: var(--primary-gold);
+        }
+
+        .events-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .tag {
+            background: rgba(139, 0, 0, 0.2);
+            border: 1px solid var(--accent-red);
+            padding: 8px 20px;
+            border-radius: 20px;
+            color: var(--text-light);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .tag:hover {
+            background: var(--accent-red);
+            box-shadow: 0 0 15px var(--accent-red-bright);
+            transform: scale(1.05);
+        }
+
+        .about-image {
+            flex: 1;
+            position: relative;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 10px;
+            border: 2px solid var(--primary-gold);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+            filter: sepia(0.3) contrast(1.2);
+            transition: all 0.5s ease;
+        }
+
+        .about-image:hover img {
+            filter: sepia(0) contrast(1);
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.5);
+            transform: translateY(-10px);
+        }
+
+        /* Галерея (Видео) */
+        #gallery {
+            background-color: var(--bg-dark);
+            background-image: radial-gradient(circle at center, rgba(139, 0, 0, 0.1) 0%, transparent 70%);
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .video-card {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            aspect-ratio: 16/9;
+            background: #111;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        /* Имитация превью видео (можно заменить на теги <img> с обложками) */
+        .video-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(45deg, rgba(139,0,0,0.5), rgba(0,0,0,0.8));
+            z-index: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .video-card:hover {
+            transform: scale(1.05);
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .video-card:hover::before {
+            opacity: 0.3;
+        }
+
+        .play-btn {
+            position: relative;
+            z-index: 2;
+            font-size: 4rem;
+            color: rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+        }
+
+        .video-card:hover .play-btn {
+            color: var(--accent-red-bright);
+            text-shadow: 0 0 20px var(--accent-red-bright);
+            transform: scale(1.1);
+        }
+
+        .video-title {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            z-index: 2;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        /* Контакты */
+        #contacts {
+            background: linear-gradient(to top, var(--bg-cabaret), var(--bg-dark));
+            text-align: center;
+        }
+
+        .contact-card {
+            background: rgba(10, 10, 10, 0.8);
+            border: 1px solid var(--primary-gold);
+            padding: 50px;
+            border-radius: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 0 30px rgba(139, 0, 0, 0.5);
+            position: relative;
+        }
+
+        /* Декоративные уголки */
+        .contact-card::before, .contact-card::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border: 2px solid var(--primary-gold);
+        }
+        .contact-card::before { top: 10px; left: 10px; border-right: none; border-bottom: none; }
+        .contact-card::after { bottom: 10px; right: 10px; border-left: none; border-top: none; }
+
+        .director-name {
+            font-size: 1.8rem;
+            color: var(--primary-gold);
+            margin-bottom: 5px;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .role {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .phone-number {
+            display: inline-block;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 30px;
+            transition: text-shadow 0.3s ease;
+        }
+
+        .phone-number:hover {
+            text-shadow: 0 0 15px var(--text-light);
+        }
+
+        .messengers {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .messenger-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            font-size: 1.8rem;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .messenger-btn.wa:hover {
+            background: #25D366;
+            border-color: #25D366;
+            box-shadow: 0 0 20px rgba(37, 211, 102, 0.6);
+            transform: translateY(-5px);
+        }
+
+        .messenger-btn.tg:hover {
+            background: #0088cc;
+            border-color: #0088cc;
+            box-shadow: 0 0 20px rgba(0, 136, 204, 0.6);
+            transform: translateY(-5px);
+        }
+
+        .messenger-btn.vb:hover {
+            background: #7360f2;
+            border-color: #7360f2;
+            box-shadow: 0 0 20px rgba(115, 96, 242, 0.6);
+            transform: translateY(-5px);
+        }
+
+        /* Футер */
+        footer {
+            background: #050505;
+            text-align: center;
+            padding: 30px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        /* Анимации */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Адаптивность */
+        @media (max-width: 992px) {
+            .hero-title { font-size: 4rem; }
+            .about-content { flex-direction: column; }
+            .about-image { order: -1; margin-bottom: 30px; }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn { display: block; }
+            
+            .nav-links {
+                position: absolute;
+                top: var(--nav-height);
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - var(--nav-height));
+                background: rgba(10, 10, 10, 0.98);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 3rem;
+                transition: 0.4s ease-in-out;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-links li a { font-size: 1.5rem; }
+
+            .hero-title { font-size: 3rem; }
+            .hero-subtitle { font-size: 1.2rem; }
+            
+            .section-title { font-size: 2.2rem; }
+            .phone-number { font-size: 1.8rem; }
+            .contact-card { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Навигация -->
+    <header>
+        <div class="logo">Dutti</div>
+        <ul class="nav-links">
+            <li><a href="#hero">Главная</a></li>
+            <li><a href="#about">О нас</a></li>
+            <li><a href="#gallery">Галерея</a></li>
+            <li><a href="#contacts">Контакты</a></li>
+        </ul>
+        <div class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </div>
+    </header>
+
+    <!-- Главный экран -->
+    <section id="hero">
+        <h1 class="hero-title">Ансамбль «Dutti»</h1>
+        <p class="hero-subtitle">Виртуозная живая музыка, которая превратит ваше мероприятие в незабываемое шоу. Элегантность, драйв и магия аккордеона.</p>
+        <a href="#contacts" class="cta-btn">Заказать выступление</a>
+    </section>
+
+    <!-- О нас -->
+    <section id="about">
+        <h2 class="section-title">История и стиль</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <p>Ансамбль аккордеонистов <strong>«Dutti»</strong> — это уникальный музыкальный коллектив, объединяющий виртуозное исполнение, потрясающую энергетику и стильную подачу. Мы ломаем стереотипы об аккордеоне, превращая каждое выступление в настоящее шоу.</p>
+                <p>В нашем репертуаре — от страстного танго и французского шансона в стиле кабаре до современных мировых хитов в авторской аранжировке. Мы создаем идеальную атмосферу для любого события.</p>
+                
+                <div class="events-tags">
+                    <span class="tag">Банкеты</span>
+                    <span class="tag">Дни рождения</span>
+                    <span class="tag">Корпоративы</span>
+                    <span class="tag">Свадьбы</span>
+                    <span class="tag">Городские праздники</span>
+                </div>
+            </div>
+            <div class="about-image">
+                <!-- Заглушка, можно заменить на реальное фото коллектива -->
+                <img src="https://images.unsplash.com/photo-1549417255-a0c10816f195?q=80&w=800&auto=format&fit=crop" alt="Выступление ансамбля Тутти">
+            </div>
+        </div>
+    </section>
+
+    <!-- Галерея -->
+    <section id="gallery">
+        <h2 class="section-title">Наши выступления</h2>
+        <div class="video-grid">
+            <!-- Видео 1 (Ссылка на YouTube) -->
+            <a href="https://youtube.com/" target="_blank" class="video-card" style="background: url('https://images.unsplash.com/photo-1511192336575-5a79af67a629?q=80&w=600&auto=format&fit=crop') center/cover;">
+                <i class="fab fa-youtube play-btn"></i>
+                <div class="video-title">Французский шансон</div>
+            </a>
+            <!-- Видео 2 -->
+            <a href="https://youtube.com/" target="_blank" class="video-card" style="background: url('https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=600&auto=format&fit=crop') center/cover;">
+                <i class="fab fa-youtube play-btn"></i>
+                <div class="video-title">Новогодний корпоратив</div>
+            </a>
+            <!-- Видео 3 -->
+            <a href="https://youtube.com/" target="_blank" class="video-card" style="background: url('https://images.unsplash.com/photo-1470229722913-7c092bce8566?q=80&w=600&auto=format&fit=crop') center/cover;">
+                <i class="fab fa-youtube play-btn"></i>
+                <div class="video-title">Страстное танго</div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Контакты -->
+    <section id="contacts">
+        <h2 class="section-title">Свяжитесь с нами</h2>
+        <div class="contact-card">
+            <h3 class="director-name">Бельцева Алла Александровна</h3>
+            <p class="role">Художественный руководитель</p>
+            
+            <a href="tel:+79991234567" class="phone-number">+7 (999) 123-45-67</a>
+            
+            <p style="margin-bottom: 20px; color: var(--text-muted);">Напишите нам в мессенджеры для обсуждения деталей и бронирования дат:</p>
+            
+            <div class="messengers">
+                <!-- Замените номера в ссылках на реальные -->
+                <a href="https://wa.me/79991234567" target="_blank" class="messenger-btn wa" title="WhatsApp">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+                <a href="https://t.me/username" target="_blank" class="messenger-btn tg" title="Telegram">
+                    <i class="fab fa-telegram-plane"></i>
+                </a>
+                <a href="viber://chat?number=%2B79991234567" target="_blank" class="messenger-btn vb" title="Viber">
+                    <i class="fab fa-viber"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer>
+        <p>&copy; 2023-2024 Ансамбль аккордеонистов «Dutti». Все права защищены.</p>
+    </footer>
+
+    <!-- Скрипт для мобильного меню -->
+    <script>
+        const menuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        const links = document.querySelectorAll('.nav-links li a');
+
+        // Открытие/закрытие меню
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const icon = menuBtn.querySelector('i');
+            if(navLinks.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Закрытие меню при клике на ссылку
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                menuBtn.querySelector('i').classList.remove('fa-times');
+                menuBtn.querySelector('i').classList.add('fa-bars');
+            });
+        });
+    </script>
+</body>
+</html>
